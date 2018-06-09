@@ -1,0 +1,7 @@
+u = 'hello'
+v = 'goodbye'
+s = ''
+for c in u:
+    s=s+c
+for c in v:
+    s += c
