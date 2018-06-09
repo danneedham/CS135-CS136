@@ -1,0 +1,10 @@
+Dan Needham
+
+10.3
+This is the same problem as the tower of hanoi. To move the last item in the stack to the bottom of the new stack, you would need to move items 0 through n-1 on to a third stack before moving the final item. Then you need to solve the same problem on the stack of size n-1. Moving items would just involve poping them from the original stack and placing them on the desired stack. And the problem could be solved with only one additional stack (3 total).
+
+10.4
+To get this result on a new stack, one would only have to pop each item and push it on to the new stack one by one. To move this result to the original stack, you are again faced with a towers of hanoi problem, and need one additional stack to move the stack in the reversed order back to its original stack.
+
+10.5
+Copying a queue to a new queue would simply involve removing each item and placing it on the new queue. Since Queues are first in first out structures, the first item removed is the first item that was placed in the old queue, so it should be the first item placed in the new queue. No additional queues are needed besides the original and the new queue. 

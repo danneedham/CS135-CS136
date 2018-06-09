@@ -1,0 +1,48 @@
+/** @author Dan Needham
+ * Alternative class for determining subsets of a word that are also words.
+ * Uses an OrderedVector for the lexicon of words from the file input. 
+ */
+import structure5.*;
+import java.util.Scanner;
+
+public class SubWords2 {
+
+    //Lexicon to store words.
+    private OrderedVector<String> lexicon;
+    //Vector of characters contained in the word being considered.
+    private Vector<Character> word;
+    //Count the number of sub words.
+    private int count;
+
+    public SubWords2(){
+	this.lexicon = new OrderedVector<String>();
+	this.word = new Vector<Character>();
+	this.count = 0;
+    }
+    public void addWordsFromFile(String filename) {
+	Scanner sc = new Scanner(new FileStream(filename));
+	while (sc.hasNext()){
+	    this.lexicon.add(sc.next());
+	}
+    }
+    public static void main (String[] args){
+	SubWords2 sim = new SubWords2();
+	sim.addWordsFromFile(args[0]);
+	for (int i=0;i<args[1].length();i++){
+	    sim.word.add(args[1].charAt(i));
+	}
+	SubsetIterator<Character> iter = new SubsetIterator<Character>(sim.word);
+	while (iter.hasNext()){
+	    String w = "";
+	    Vector<Character> vector = iter.next();
+	    for (Character c : vector){
+		w+=c;
+	    }
+	    if (sim.lexicon.contains(w)){
+		sim.count++;
+		System.out.println(w);
+	    }
+	}	
+	System.out.println("Words found: " +sim.count);
+    }
+}

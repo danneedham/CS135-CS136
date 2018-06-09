@@ -1,0 +1,262 @@
+/*
+ * Recursion.java
+ *
+ * [Insert Your Name, etc. Here]
+ *
+ * Starter code for the recursion lab.
+ *
+ */
+import structure5.*;
+
+public class Recursion {
+
+
+    /*****  1  ***************************************************/
+
+    /*
+     *@post Return number of cannoballs in pyramid with the given height.
+     This function is O(n), because for n recursive calls we square height, where height is a constant.
+*/
+    public static int countCannonballs(int height)
+    {
+	if(height == 1)
+	    {
+		return 1;
+	    }
+	else
+	    {
+		return (height * height) + countCannonballs(height -1);
+	    }
+    }
+
+
+    /*****  2  ***************************************************/
+
+    /*
+     * Return true if str is a palindrome.
+     This function is O(n), because for n recursive calls, we decrement the array by its first and last elements, which are constant operations.
+     */
+    public static boolean isPalindrome(String str)
+    {
+	if(str.length() == 1)
+	    {
+		return true;
+	    }
+	else if(str.length() == 2 && str.substring(0,1).equals(str.substring(1)))
+	    {
+		return true;
+	    }
+	else
+	    {
+		if(str.substring(0,1).equals(str.substring(str.length() - 1)))
+		    {
+			return isPalindrome(str.substring(1, str.length() - 1));
+		    }
+		else
+		    {
+			return false;
+		    }
+	    }
+    }
+
+    /*****  3  ***************************************************/
+
+    /*
+     * Return true if str is a string of matched parens,
+     * brackets, and braces.
+     This method is O(n^2), because for each recursive call to isBalanced, we run contains, which iterates through our string n times. 
+     */
+    public static boolean isBalanced(String str) {
+	if(str.length() == 0)
+	    {
+		return true;
+	    }
+	else if(str.length() == 1)
+	    {
+		return false;
+	    }
+	else
+	    {
+		if(contains(str) > -1)
+		    {
+			int i = contains(str);
+			return isBalanced(str.substring(0,i) + str.substring(i + 2));
+		    }
+		else
+		    {
+			return false;
+		    }
+	    }
+    }
+
+    public static int contains(String str)
+    {
+	if(str.indexOf("[]") > -1)
+	    {
+		return str.indexOf("[]");
+	    }
+	else if(str.indexOf("()") > -1)
+	    {
+		return str.indexOf("()");
+	    }
+	else if(str.indexOf("{}") > -1)
+	    {
+		return str.indexOf("{}");
+	    }
+	else
+	    {
+		return -1;
+	    }
+    }
+
+
+    /*****  4  ***************************************************/
+
+    /*
+     * Print all substrings of str.  (Order does not matter.)
+     This method is O(2^n) for each recursive call on a string, we run an additional two recursive calls. 
+     */
+    public static void printSubstrings(String str)
+    {
+	substringHelper(str, "");
+    }
+
+    public static void substringHelper(String str, String soFar)
+    {
+	if(str.length() == 0)
+	    {
+	        System.out.print(soFar);
+		System.out.print(" ");
+	    }
+	else
+	    {
+	String temp = soFar + str.substring(0,1);
+	substringHelper(str.substring(1),temp);
+	substringHelper(str.substring(1), soFar);
+	    }
+    }
+	
+    /*****  5  ***************************************************/
+
+    /*
+     * Print number in binary
+     */
+    public static void printInBinary(int number) {
+	helper(number / 2);
+	System.out.println(number % 2);
+    }
+
+    public static void helper(int number)
+    {
+	if(number / 1 == 1)
+	    {
+		System.out.print(number);
+	    }
+	else if(number / 1 == 0)
+	    {
+		System.out.print(number);
+	    } 
+	else
+	    {
+	helper(number / 2);
+	System.out.print(number %  2);
+	    }
+    }
+    /*****  6  ***************************************************/
+
+    /*
+     * Return whether a subset of the numbers in nums add up to sum,
+     * and print them out.
+     */
+    public static boolean printSubsetSum(int setOfNums[], 
+					 int targetSum) {
+	return Helper(setOfNums, targetSum, 0);
+    }
+    public static boolean Helper(int setOfNums[], int targetSum, int i) {
+	if(targetSum == 0) {
+	    System.out.println("");
+	    return true;
+	}
+	if (setOfNums[i] - targetSum == 0) {
+	    System.out.println(setOfNums[i]);
+	    return true;
+	}
+	else if(setOfNums.length == i) {
+	    return false;
+	    }
+	i++;
+	if (i == setOfNums.length){
+		return false;
+	    }
+	if(Helper(setOfNums, targetSum - setOfNums[i],i)){
+	    System.out.println(setOfNums[i]);
+	    return true;
+	}
+	if(Helper(setOfNums, targetSum, i)){		
+	    return true;
+	}
+	else
+	    {
+	    return false;
+	    }
+    }
+
+
+    /*
+     * Return the number of different ways elements in nums can be
+     * added together to equal sum.
+     */
+    public static int countSubsetSumSolutions(int setOfNums[], 
+					      int targetSum) {
+	return countHelper(setOfNums, targetSum, -1);
+    }
+
+    public static int countHelper(int setOfNums[], int targetSum, int i) {
+	int count = 0;
+	i++;
+	if (i == setOfNums.length)
+        {
+	    return count;
+	}
+	if(setOfNums[i] - targetSum == 0)
+	    {
+	    count++;
+	    return count;
+	    }
+	else if(setOfNums.length == 1)
+	    {
+		return count;
+	    }
+	return countHelper(setOfNums, targetSum - setOfNums[i], i) + countHelper(setOfNums, targetSum, i);
+	
+
+    }
+
+
+    /*****  7  ***************************************************/
+    
+    public static void listCompletions(String digitSequence, 
+				       Lexicon lex) {
+    
+    }
+
+
+    /**************************************************************/
+    
+    /*
+     * Add testing code to main to demonstrate that each of your 
+     * recursive methods works properly.
+     */
+    public static void main(String args[]) {
+
+	// test code for problem 1
+	int[] nums = new int[5];
+	nums[0] = 3;
+	nums[1] = 7;
+	nums[2] = 1;
+	nums[3] = 8;
+	nums[4] = -3;
+	System.out.println(countSubsetSumSolutions(nums, 4));
+	printSubsetSum(nums, 4);
+    }
+}

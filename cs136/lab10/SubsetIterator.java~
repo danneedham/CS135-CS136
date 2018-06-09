@@ -1,0 +1,72 @@
+/** @author Dan Needham
+ * A class that iterates through a vector of elements and returns each possible subset of these elements.
+ */
+import structure5.*;
+import java.util.Iterator;
+
+public class SubsetIterator<E> extends AbstractIterator<Vector<E>> {
+
+    //long value for number of values in vector. 
+    private int n;
+    //long value representing current subset.
+    private Long i;
+    //index of current bit.
+    private int b;
+    //the original vector.
+    private Vector<E> v;
+    //vector representing a given subset.
+    private Vector<E> subset;
+    
+    public SubsetIterator(Vector<E> vec){
+	this.v = vec;
+	n = vec.size();
+	b = 0;
+	i = 1L;
+	subset = new Vector<E>();
+    }
+
+    public boolean hasNext() {
+	return i <= 1<<n;
+    }
+    /** 
+     * Compare  using "bitwise &" our Long value i to a given number whose 
+     * binary representation is a 1 in a given place and all 0s otherwise.
+     * If the result is not zero, the long has a 1 in the bit place 
+     * currently being examined. Therefore we add this element to subset.
+     * 
+     * Ex) 5 - 00101. compare with 00001, add 0th element, compare with
+     * 00010, do not add 1st element. Ultimately we add 0th and 2nd. 
+     * For vec = <1,2,3,4,5>, subset = <1,3>.
+     */
+    public Vector<E> next() {
+	Vector<E> temp = subset;
+	subset = new Vector<E>();
+	for (int index = 0; index < 1<<n; index++){
+	    if ((i & 1 << index) != 0){
+		subset.add(v.get(index));
+	    }
+	}
+	i++;
+	return temp;
+    }
+    public Vector<E> get(){
+	return subset;
+    }
+    
+    public void reset(){
+	subset = new Vector<E>();
+	i = 1L;
+    }
+    public static void main(String[] args){
+	//test iterator with vector <1,2,3,4,5>
+	Vector<Integer> test = new Vector<Integer>();
+	for (int i=1;i<=5;i++){
+	    test.add(i);
+	}
+	SubsetIterator<Integer> iter = new SubsetIterator<Integer>(test);
+	while (iter.hasNext()){
+	    System.out.println(iter.next());
+	}
+    }
+}
+

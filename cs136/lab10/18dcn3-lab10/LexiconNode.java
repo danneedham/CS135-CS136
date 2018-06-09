@@ -1,0 +1,108 @@
+//Dan Needham
+import structure5.*;
+import java.util.Iterator;
+
+class LexiconNode implements Comparable<LexiconNode> {
+    char letter;
+    boolean isWord;
+    Vector<LexiconNode> children;
+    LexiconNode parent;
+
+    /** 
+     * I used a vector to keep track of the children of a node because it brings a greater degee of ease traversing the structure as compared to a list. 
+     * I initialize children at 1 because I predict there will be a lot of nodes with only one child (long strings that can only add 1 unique letter to form a word.) 
+     * My worst case is that of greater than 16 children, in which case I am wasting 15-6 spots (17-26 children) which isn't a huge deal. 
+     **/
+
+    // Constructor
+    LexiconNode(char letter, boolean word) {
+	this.letter = letter;
+	this.isWord = word;
+	this.children = new Vector<LexiconNode>(1);
+	this.parent = null;
+    }
+
+    /* Compare this LexiconNode to another.  You should just 
+     * compare the characters stored at the Lexicon Nodes.
+     */
+
+    public int compareTo(LexiconNode other) {
+	return this.letter - other.letter;
+
+
+    } 
+
+    /* Return letter stored by this LexiconNode */
+    public char letter() {
+	return this.letter;
+    }
+    /* Set the letter of a node */
+    public void setLetter(char c) {
+	this.letter = c;
+    }
+    /* Return parent node */
+    public LexiconNode parent() {
+	return this.parent;
+    }
+    /* Add LexiconNode child to correct position in child data structure */
+    public LexiconNode addChild(LexiconNode ln) {
+	
+	for (int i=0; i < this.children.size(); i++){
+	    if (ln.compareTo(this.children.get(i)) == 0){
+		//child already exists, doesn't add it.
+		return this.children.get(i);
+		}
+	    if (ln.compareTo(this.children.get(i)) == -1){
+		//we are at the letter's location and it is not already in the vector.
+		this.children.add(i, ln);
+		return ln;
+	    }
+	}
+	this.children.add(this.children.size(), ln);
+	return ln;
+    }
+    
+
+    /* Get LexiconNode child for 'ch' out of child data structure */
+    public LexiconNode getChild(char ch) {
+	for (int i=0; i < this.children.size(); i++){
+	    if (this.children.get(i).letter == ch){
+		return this.children.get(i);
+	    }
+	}
+	return null;
+    }
+    /* Method to check if a node is the last letter of a word.*/
+    public boolean isWord(){
+	return this.isWord;
+    }
+    /*Gets the vector of children.*/
+    public Vector<LexiconNode> getChildren() {
+	return this.children;
+    }
+    /* Remove LexiconNode child for 'ch' from child data structure */
+    public void removeChild(char ch, int index) {
+	this.children.remove(index);
+
+
+    }
+    /* Indicate that this node represents last letter of a word.*/
+    public void setWord(){
+	this.isWord = true;
+    }
+    public void setNotWord(){
+	this.isWord = false;
+    }
+    public String toString(){
+	String word = this.letter + "";
+	for (LexiconNode child : this.children){
+	    word += child.toString();
+	}
+	return word;
+    }
+	    
+    /* Iterate over children */
+    public Iterator<LexiconNode> iterator() {
+	return children.iterator();
+    }
+}

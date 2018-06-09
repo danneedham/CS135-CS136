@@ -1,0 +1,45 @@
+//(c) Dan Needham
+//A class for interpreting postscript commands.
+import structure5.*;
+public class Interpreter
+{
+    protected StackVector<Token> tokens;
+
+    public Interpreter(){
+	tokens = new StackVector<Token>();
+    }
+    public void interpret(Reader input){
+	while(input.hasNext()){
+	    if (input.next().isNumber()){
+		tokens.push(input.next());	    
+	    }
+	    if (input.next().isSymbol()){
+		symbols(input.next());
+	    }
+	    break;
+	}
+        System.out.println(tokens.pop());
+    }
+    public void symbols(Token t){
+	if (t.equals("add")) {
+	    add(t);
+	}
+    }
+    public void add(Token t){	
+	//@pre there are at least two items on the stack tokens
+	//@pre the first two items on the stack are numbers
+	Token a = tokens.pop();
+	Token b = tokens.pop();
+	if (a.isNumber() && b.isNumber()){
+	    Token sum = new Token(a.getNumber() + b.getNumber());	
+	tokens.push(sum);
+	}
+    }
+    public static void main(String[] args){
+	Reader r = new Reader();
+	Token t;
+	Interpreter I = new Interpreter();
+	I.interpret(r);
+	
+    }
+}

@@ -1,0 +1,24 @@
+import structure5.*;
+import java.util.Scanner;
+public class WordGen {
+
+    public static void main(String[] args){
+	
+	Scanner in = new Scanner(System.in);
+	StringBuffer textBuffer = new StringBuffer ();
+	while (in.hasNextLine()) {
+	    String line = in.nextLine();
+	    textBuffer.append(line);
+	    textBuffer.append("\n");
+	}		       
+	String text = textBuffer.toString();
+
+	int k = 2;
+	Table tb = new Table();
+	    
+	for (int i; i < text.length(); i++){
+	    String str = text.substring(i,i+(k+1));
+	    tb.update(str);
+	}
+	
+}
